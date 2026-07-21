@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TikTok Auth Callback</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,sans-serif;background:#0f0f23;color:#e0e0e0;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px;}
+.card{background:#1a1a3e;padding:40px;border-radius:16px;max-width:600px;width:100%;text-align:center;border:1px solid #2a2a5e;}
+h1{color:#69c9d0;margin-bottom:16px;font-size:22px;}
+.code-box{background:#0a0a2e;padding:16px;border-radius:8px;margin:16px 0;word-break:break-all;font-family:monospace;font-size:14px;color:#f0c040;border:1px solid #333;text-align:left;}
+.btn{display:inline-block;padding:14px 28px;background:#69c9d0;color:#0f0f23;text-decoration:none;border-radius:8px;font-weight:bold;margin:8px 4px;font-size:15px;border:none;cursor:pointer;}
+.btn:hover{background:#4db8c4;}
+.btn-red{background:#ff4757;color:white;}
+.btn-red:hover{background:#ff6b81;}
+.error{color:#ff4757;font-weight:bold;}
+.success{color:#22c55e;font-weight:bold;}
+.note{color:#888;font-size:13px;margin-top:12px;}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>TikTok Authorization</h1>
+<div id="loading">Processing...</div>
+<div id="result" style="display:none;">
+<p class="success">Authorization successful!</p>
+<p style="margin:12px 0;">Your authorization code:</p>
+<div class="code-box" id="code-display"></div>
+<p class="note">Copy the code above and paste it into your local server.</p>
+<a href="#" id="send-btn" class="btn">Send to Local Server</a>
+<br>
+<p class="note">Or open this URL manually:</p>
+<div class="code-box" id="url-display" style="font-size:11px;"></div>
+</div>
+<div id="error-result" style="display:none;">
+<p class="error">Authorization failed</p>
+<div class="code-box" id="error-display"></div>
+<a href="/" class="btn btn-red">Back</a>
+</div>
+</div>
+<script>
+const params = new URLSearchParams(window.location.search);
+const code = params.get('code');
+const error = params.get('error');
+const errorDesc = params.get('error_description');
+const state = params.get('state');
+
+if (error) {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('error-result').style.display = 'block';
+  document.getElementById('error-display').textContent = error + ': ' + (errorDesc || '');
+} else if (code) {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('code-display').textContent = code;
+  const exchangeUrl = 'http://localhost:3001/tiktok/exchange?code=' + encodeURIComponent(code) + '&state=' + encodeURIComponent(state || '');
+  document.getElementById('send-btn').href = exchangeUrl;
+  document.getElementById('url-display').textContent = exchangeUrl;
+} else {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('error-result').style.display = 'block';
+  document.getElementById('error-display').textContent = 'No code received. URL: ' + window.location.href;
+}
+</script>
+</body>
+</html>

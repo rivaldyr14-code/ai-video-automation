@@ -1,0 +1,9 @@
+output/
+node_modules/
+temp/
+tokens/
+data/
+*.mp4
+*.srt
+*.ass
+*.log
