@@ -209,90 +209,86 @@ async function fetchTrending() {
 }
 
 function generateHook(title, niche) {
+  const clean = (title || '').replace(/[-–—:|]/g, ' ').replace(/\s+/g, ' ').trim();
+  const core = clean.replace(/^(breaking|just in|viral|alert|update|news|report|says|reveals|confirms|announces)\s*/gi, '').trim();
+  const shortTitle = core.substring(0, 60);
   const hooks = {
     technology: [
-      `This is INSANE! ${title.substring(0, 50)}...`,
-      `NO WAY this just happened! Tech will never be the same.`,
-      `Scientists are STUNNED. Most people missed this completely.`,
-      `This just broke the internet! Nobody saw this coming.`,
-      `Mind = BLOWN! This changes everything about technology.`,
+      `Here is what ${shortTitle} means for the future.`,
+      `${shortTitle}. Here is why every tech expert is paying attention.`,
+      `Most people will scroll past this. ${shortTitle}. But you should not.`,
+      `${shortTitle}. The implications go far deeper than the headline suggests.`,
+      `If you work in tech, ${shortTitle} changes your roadmap.`,
     ],
     science: [
-      `WARNING: This discovery will shock you!`,
-      `Scientists CANNOT explain this! The data is terrifying.`,
-      `This breaks all the rules of physics! Researchers are panicking.`,
-      `What they found is absolutely UNBELIEVABLE!`,
-      `The universe just got weirder! This changes everything.`,
+      `Researchers just confirmed something remarkable. ${shortTitle}.`,
+      `${shortTitle}. The data behind this is worth understanding.`,
+      `A new study just changed how we think about ${shortTitle}.`,
+      `${shortTitle}. Scientists have been working toward this for years.`,
+      `Here is the science behind ${shortTitle} and why it matters.`,
     ],
     finance: [
-      `Rich people are HIDING this from you!`,
-      `This money trick is going VIRAL right now!`,
-      `Wall Street is PANICKING about this!`,
-      `How ordinary people are getting RICH in 2026!`,
-      `Your bank does NOT want you to see this!`,
+      `Here is what ${shortTitle} means for your money.`,
+      `${shortTitle}. Financial analysts are updating their projections.`,
+      `If you follow markets, ${shortTitle} is a signal you cannot ignore.`,
+      `${shortTitle}. The economic ripple effects are already visible.`,
+      `Warren Buffett once said something that explains ${shortTitle}.`,
     ],
     mystery: [
-      `Nobody can explain this! What really happened?`,
-      `This mystery remained unsolved for CENTURIES!`,
-      `The truth is FINALLY coming out!`,
-      `What they found defies ALL explanation!`,
-      `This will keep you UP at night!`,
-    ],
-    indonesia: [
-      `Breaking! Ini terjadi di Indonesia SEKARANG!`,
-      `Indonesians NEED to know about this!`,
-      `This is HUGE for Indonesia! Everyone is talking about it!`,
-      `Indonesia just made HISTORY!`,
-      `Dunia terkejut! Indonesia melakukan sesuatu yang luar biasa!`,
+      `New evidence just surfaced about ${shortTitle}.`,
+      `${shortTitle}. Researchers have spent years trying to understand this.`,
+      `Here is what investigators found about ${shortTitle}.`,
+      `${shortTitle}. The details are more complex than anyone expected.`,
+      `After years of silence, ${shortTitle} finally has answers.`,
     ],
     nature: [
-      `This animal just did something NOBODY expected!`,
-      `Nature is WAY more incredible than you think!`,
-      `Scientists are STUNNED by what they just discovered in nature!`,
-      `This changes EVERYTHING we know about animals!`,
-      `The natural world just proved us wrong AGAIN!`,
+      `Here is what ${shortTitle} means for the natural world.`,
+      `${shortTitle}. Marine biologists and ecologists are taking notice.`,
+      `Researchers studying ${shortTitle} just published their findings.`,
+      `${shortTitle}. The environmental implications are significant.`,
+      `Here is why ${shortTitle} matters for biodiversity.`,
     ],
     space: [
-      `This discovery from space just BROKE physics!`,
-      `Astronomers cannot explain what they just found!`,
-      `The universe is stranger than ANYONE imagined!`,
-      `This changes EVERYTHING we know about space!`,
-      `What scientists found in space is TERRIFYING!`,
+      `Astronomers just made a breakthrough. ${shortTitle}.`,
+      `${shortTitle}. NASA is updating their research priorities because of this.`,
+      `Here is what ${shortTitle} means for space exploration.`,
+      `${shortTitle}. The data from this observation is extraordinary.`,
+      `This changes how we understand ${shortTitle}.`,
     ],
     history: [
-      `History just revealed something INCREDIBLE!`,
-      `This ancient secret was hidden for THOUSANDS of years!`,
-      `Archaeologists just found something that changes history!`,
-      `The past is more incredible than we ever knew!`,
-      `Everything you learned in history class was WRONG!`,
+      `Archaeologists just uncovered something about ${shortTitle}.`,
+      `${shortTitle}. Historians are rewriting what we thought we knew.`,
+      `New evidence about ${shortTitle} has been discovered.`,
+      `${shortTitle}. The historical significance is enormous.`,
+      `Here is the real story behind ${shortTitle}.`,
     ],
     psychology: [
-      `Your brain is LYING to you right now!`,
-      `This psychological trick is used on you EVERY DAY!`,
-      `Scientists just discovered something TERRIFYING about the brain!`,
-      `This mind trick will change how you see EVERYTHING!`,
-      `Psychologists do NOT want you to know this!`,
+      `New research on ${shortTitle} just changed what we know.`,
+      `${shortTitle}. Psychologists are revisiting their assumptions.`,
+      `Here is what ${shortTitle} reveals about human behavior.`,
+      `${shortTitle}. The study behind this involved thousands of participants.`,
+      `Cognitive scientists just confirmed something about ${shortTitle}.`,
     ],
     food: [
-      `This food secret has been hidden for CENTURIES!`,
-      `Chefs do NOT want you to know this cooking trick!`,
-      `This ingredient is in EVERYTHING and you did not know!`,
-      `Food science just proved everything wrong!`,
-      `This recipe changes the entire game!`,
+      `Here is what ${shortTitle} means for the food industry.`,
+      `${shortTitle}. Nutritionists and food scientists are weighing in.`,
+      `New research about ${shortTitle} has the culinary world talking.`,
+      `${shortTitle}. The health implications are worth understanding.`,
+      `Here is the science behind ${shortTitle}.`,
     ],
     geography: [
-      `This place on earth should NOT exist!`,
-      `People live in the CRAZIEST places on earth!`,
-      `This country is a place most people never knew existed!`,
-      `Geography just showed us something INCREDIBLE!`,
-      `This location defies EVERYTHING we know!`,
+      `Here is what makes ${shortTitle} geographically significant.`,
+      `${shortTitle}. Geographers and researchers are studying the implications.`,
+      `${shortTitle}. The environmental impact is bigger than you think.`,
+      `Here is why ${shortTitle} matters on a global scale.`,
+      `${shortTitle}. This changes how we map our world.`,
     ],
     general: [
-      `This is BREAKING right now!`,
-      `Everyone is going CRAZY about this!`,
-      `You NEED to see this before it's gone!`,
-      `This just changed EVERYTHING!`,
-      `The internet is FREAKING out!`,
+      `Here is what ${shortTitle} means and why it matters.`,
+      `${shortTitle}. The implications are worth understanding.`,
+      `This story about ${shortTitle} is developing fast.`,
+      `${shortTitle}. Here is the full context you need.`,
+      `Here is the most important thing about ${shortTitle}.`,
     ],
   };
   const pool = hooks[niche] || hooks.general;
@@ -304,128 +300,84 @@ function generateContentFromTopic(topic) {
   const niche = topic.niche || 'general';
 
   const emojis = {
-    technology: ['🤖', '💻', '⚡', '🔮', '🚀', '💡', '🌐'],
-    science: ['🔬', '🧪', '🔭', '🧬', '💫', '🌍'],
-    finance: ['💰', '📈', '💎', '🏦', '💵', '📊'],
-    mystery: ['👁️', '🔍', '❓', '🌀', '🔮'],
-    indonesia: ['🇮🇩', '🔥', '⚡', '🌏', '🎯', '💪'],
-    nature: ['🌿', '🐘', '🌊', '🦁', '🌺', '🦅'],
-    space: ['🚀', '🌌', '⭐', '🪐', '🔭', '☄️'],
-    history: ['🏛️', '⚔️', '📜', '🗿', '👑', '🏰'],
-    psychology: ['🧠', '💭', '🧪', '🎯', '💡', '🧩'],
-    food: ['🍕', '🌮', '🍜', '🍣', '🧁', '🥘'],
-    geography: ['🗺️', '🏔️', '🏝️', '🌋', '🌆', '🗼'],
-    general: ['🔥', '⚡', '🌍', '💡', '🎯', '👀'],
+    technology: ['💻', '⚡', '🌐', '📡', '🔧', '💡'],
+    science: ['🔬', '🧪', '🔭', '🧬', '📊', '🌍'],
+    finance: ['💰', '📈', '📊', '🏦', '📉', '💼'],
+    mystery: ['🔍', '🔎', '📋', '❓', '🗝️'],
+    indonesia: ['🇮🇩', '📊', '🌏', '📰', '🏙️', '🏗️'],
+    nature: ['🌿', '🐘', '🌊', '🦁', '🌍', '🦅'],
+    space: ['🚀', '🌌', '⭐', '🪐', '🔭', '📡'],
+    history: ['📜', '🏛️', '⚔️', '🗿', '👑', '🏰'],
+    psychology: ['🧠', '💭', '📊', '🎯', '💡', '🧩'],
+    food: ['🍳', '📊', '🥬', '🧂', '🍽️', '🔬'],
+    geography: ['🗺️', '🏔️', '🏝️', '🌋', '🌆', '📡'],
+    general: ['📰', '📊', '🌍', '💡', '🎯', '📋'],
   };
   const nicheEmoji = emojis[niche] || emojis.general;
   const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
   const e = () => pick(nicheEmoji);
 
-  // Clean title
-  const clean = rawTitle
-    .replace(/[-–—:|]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-
-  // Extract core subject — remove source attribution
+  const clean = rawTitle.replace(/[-–—:|]/g, ' ').replace(/\s+/g, ' ').trim();
   const core = clean
     .replace(/^(breaking|just in|viral|alert|update|news|report|says|reveals|confirms|announces)\s*/gi, '')
-    .replace(/\s*[-–—]\s*(reuters|yahoo|cnn|bbc|fox|nbc|abc|cbs|associated press|al jazeera|techcrunch|verge|cnbc|bloomberg|wsj|nyt|washington post|forbes|guardian| ESPN|AP News|Phys\.org|Live Science|Space\.com|Eurogamer|GSMArena|MLB\.com|Sports Illustrated)$/gi, '')
+    .replace(/\s*[-–—]\s*(reuters|yahoo|cnn|bbc|fox|nbc|abc|cbs|associated press|al jazeera|techcrunch|verge|cnbc|bloomberg|wsj|nyt|washington post|forbes|guardian|ESPN|AP News|Phys\.org|Live Science|Space\.com|Eurogamer|GSMArena|MLB\.com|Sports Illustrated)$/gi, '')
     .trim();
-
   const coreClean = core.replace(/[?!.,;:'"]/g, '').trim();
 
-  // 10 different story patterns — each tells the story differently
   const patterns = [
-    // Pattern 1: Breaking news style
+    // Pattern 1: Data-driven analysis
     [
-      `${e()} Breaking news right now. ${coreClean}. This is happening and the details are coming in fast.`,
-      `${e()} Here is what we know. Reports confirm this is real. Multiple sources are covering the same story, and the facts are clear.`,
-      `${e()} The significance cannot be overstated. This connects to larger trends that have been building for months. Industry experts are paying close attention.`,
-      `${e()} People are反应ing in real time. Social media is buzzing. The conversation is just getting started and opinions are split.`,
-      `${e()} What makes this different from typical news is the scale. This affects more people than you might think at first glance.`,
-      `${e()} Stay tuned. This story is developing fast and the next update could change everything. We will keep you informed.`,
+      `${e()} ${coreClean}. Here is what the data actually shows.`,
+      `${e()} According to multiple sources, this has been building for months. The numbers tell a clear story that goes beyond the headline.`,
+      `${e()} Industry analysts project this trend will accelerate over the next two years. The infrastructure being built right now supports that timeline.`,
+      `${e()} What makes this significant is the convergence. Multiple independent factors aligned simultaneously, creating an outcome that experts did not predict.`,
+      `${e()} The stakeholders involved are already adjusting their strategies. Those who recognize the pattern early will be better positioned than those who react later.`,
+      `${e()} This is worth understanding in depth. The surface-level reaction misses several important details that change the full picture.`,
     ],
-    // Pattern 2: Investigation style
+    // Pattern 2: Context-first explainer
     [
-      `${e()} Something just happened that nobody expected. ${coreClean}. And the full story is more interesting than the headline.`,
-      `${e()} We dug into this and found layers of complexity. What looks simple on the surface involves years of preparation and dozens of key players.`,
-      `${e()} The timeline matters here. This did not happen overnight. There were warning signs, preparation phases, and critical decision points along the way.`,
-      `${e()} Experts in the field are weighing in. Some see opportunity, others see risk. The consensus is forming but not yet settled.`,
-      `${e()} The ripple effects extend beyond the immediate story. Related industries, communities, and markets are all feeling the impact right now.`,
-      `${e()} This is worth following closely. The outcome will set precedents for similar situations in the future. Keep your eyes open.`,
+      `${e()} To understand why ${coreClean} matters, you need to know what happened before.`,
+      `${e()} The context here is everything. This builds on a series of developments that most people did not connect until now.`,
+      `${e()} The mechanism behind this is straightforward once you see it. Complex systems often have simple drivers that are easy to overlook.`,
+      `${e()} Impact assessment shows effects across multiple sectors. The direct consequences are visible, but the indirect effects may be larger.`,
+      `${e()} Comparisons to similar events in the past provide useful perspective. The parallels are instructive, though the differences matter too.`,
+      `${e()} The takeaway is clear. Whether this affects you directly or indirectly, understanding it puts you in a better position.`,
     ],
-    // Pattern 3: Explainer style
+    // Pattern 3: Timeline narrative
     [
-      `${e()} Let me explain why this matters. ${coreClean}. Most people will scroll past this but they should not.`,
-      `${e()} First, the context. This builds on events from recent weeks. The pattern has been visible to those paying attention.`,
-      `${e()} Second, the mechanics. How this works involves systems most people never think about but that affect daily life.`,
-      `${e()} Third, the implications. This changes the equation for millions of people. The effects will be felt across multiple sectors.`,
-      `${e()} Finally, what to watch. The next few weeks will determine whether this is a turning point or just another headline.`,
-      `${e()} The bottom line is clear. This deserves your attention. Understanding it puts you ahead of the curve.`,
+      `${e()} Six months ago, nobody was talking about ${coreClean}. Today, it is reshaping entire industries.`,
+      `${e()} The first signal appeared quietly. Researchers noticed an anomaly in the data that did not match existing models. At first, most dismissed it.`,
+      `${e()} Then the evidence started accumulating. Three independent teams confirmed the findings within the same week. That is when attention shifted.`,
+      `${e()} The turning point came when major stakeholders publicly acknowledged what had been happening behind closed doors. The market reacted immediately.`,
+      `${e()} Now we are in the acceleration phase. What took months to develop is now moving in weeks. The pace is increasing and the implications are compounding.`,
+      `${e()} The next chapter will determine whether this becomes a lasting transformation or a temporary disruption. Both outcomes are plausible.`,
     ],
-    // Pattern 4: Storytelling style
+    // Pattern 4: Expert perspective
     [
-      `${e()} Imagine waking up to this news. ${coreClean}. That is exactly what happened today and the reactions are pouring in.`,
-      `${e()} The backstory here is fascinating. What started as a small initiative has grown into something nobody predicted.`,
-      `${e()} The turning point came when key stakeholders made their move. That decision changed everything and set today's events in motion.`,
-      `${e()} Now the consequences are unfolding in real time. Observers are tracking every development and the picture is becoming clearer.`,
-      `${e()} This story has implications for everyone. Whether you follow the news closely or casually, this one matters.`,
-      `${e()} The next chapter begins now. What happens next will determine the long-term impact. Stay informed.`,
+      `${e()} Leading researchers in this field have a perspective on ${coreClean} that most coverage misses.`,
+      `${e()} Their analysis reveals layers of complexity. What appears simple from the outside involves years of research and dozens of contributing factors.`,
+      `${e()} The technical details matter here. Without understanding the underlying mechanisms, it is easy to draw incorrect conclusions from the surface data.`,
+      `${e()} Expert consensus is forming around a specific interpretation. There is still debate on the implications, but the core findings are widely accepted.`,
+      `${e()} What distinguishes this from similar developments is the combination of scale and speed. The magnitude is unusual, and the timeline is compressed.`,
+      `${e()} Following the expert analysis over the coming weeks will provide clarity. This is an evolving situation with new information emerging regularly.`,
     ],
-    // Pattern 5: Analysis style
+    // Pattern 5: Impact analysis
     [
-      `${e()} This development deserves a closer look. ${coreClean}. The surface-level reaction misses the deeper significance.`,
-      `${e()} Data shows this has been trending upward for weeks. The metrics confirm what observers have been noting. This is not a fluke.`,
-      `${e()} Historical parallels help explain the magnitude. Similar events in the past led to lasting changes. This could follow the same trajectory.`,
-      `${e()} Stakeholder responses have been mixed but telling. The range of reactions reveals the complexity of the situation.`,
-      `${e()} Looking at the broader picture, this fits into a pattern of accelerating change. The pace is picking up and the stakes are rising.`,
-      `${e()} Analysis suggests this is just the beginning. The full impact will take months to materialize. Pay attention to this space.`,
+      `${e()} The real story behind ${coreClean} is about what happens next.`,
+      `${e()} Direct effects are already measurable. But the second and third-order consequences are where the most significant changes will occur.`,
+      `${e()} Economic modeling suggests the impact will be distributed unevenly. Some sectors will benefit immediately, others will need time to adapt.`,
+      `${e()} The adaptation timeline varies by industry. Early movers are already positioning. The competitive landscape is shifting in real time.`,
+      `${e()} Historical precedent suggests a pattern. Initial disruption, followed by adaptation, then a new equilibrium. The timeline is always shorter than people expect.`,
+      `${e()} The practical takeaway is straightforward. Understanding this change gives you options that will not exist once the new equilibrium is established.`,
     ],
-    // Pattern 6: Discovery style
+    // Pattern 6: Deep dive
     [
-      `${e()} Something remarkable just came to light. ${coreClean}. And it changes how we think about this subject.`,
-      `${e()} The discovery process itself is noteworthy. It took persistence, creativity, and a willingness to challenge assumptions.`,
-      `${e()} What emerged from this process is compelling. The evidence points in one direction and the conclusions are hard to dismiss.`,
-      `${e()} The reaction from the community has beenswift. Others are replicating the findings and confirming what was initially controversial.`,
-      `${e()} This opens new doors. Previous limitations no longer apply. The possibilities just expanded significantly.`,
-      `${e()} Watch this space. The implications of this discovery will unfold over time. We are just scratching the surface.`,
-    ],
-    // Pattern 7: Debate style
-    [
-      `${e()} This is sparking debate everywhere. ${coreClean}. People are divided and the discussion is heated.`,
-      `${e()} On one side, supporters point to clear evidence. The case is strong and the momentum is building. They see this as overdue.`,
-      `${e()} On the other side, skeptics raise valid concerns. The counterarguments deserve consideration. Both perspectives have merit.`,
-      `${e()} The middle ground is where truth usually lives. Most experts agree on the core facts but disagree on interpretation and implications.`,
-      `${e()} What is not debatable is the impact. Regardless of where you stand, this affects the landscape. The status quo is shifting.`,
-      `${e()} The resolution will come with time. For now, engage with the debate. Understanding both sides makes you smarter about this issue.`,
-    ],
-    // Pattern 8: Future-looking style
-    [
-      `${e()} The future just got closer. ${coreClean}. What was theoretical is now practical and the implications are enormous.`,
-      `${e()} This represents a milestone. The technology, the timing, the execution all aligned in ways that accelerate the timeline.`,
-      `${e()} Prediction models are being updated. The old projections underestimated the speed of change. New estimates are more aggressive.`,
-      `${e()} Early adopters are already positioning. They see what is coming and are preparing. The competitive advantage goes to those who move first.`,
-      `${e()} The transformation will happen in stages. The immediate effects are visible. The medium-term consequences are predictable. The long-term impact is transformative.`,
-      `${e()} Prepare accordingly. Whether this affects your work, your investments, or your daily life, awareness is the first step.`,
-    ],
-    // Pattern 9: Human interest style
-    [
-      `${e()} Behind every headline are real people. ${coreClean}. Their stories make this more than just news.`,
-      `${e()} The individuals involved have been working toward this moment for years. Their dedication and persistence led to today.`,
-      `${e()} The human element is what makes this relatable. Beyond the statistics and analysis, there are personal journeys and professional milestones.`,
-      `${e()} Communities are responding. The social impact extends beyond the immediate participants. This resonates on a personal level for many.`,
-      `${e()} The lessons here apply universally. Perseverance, adaptability, and vision are themes that connect this story to everyday life.`,
-      `${e()} Remember the people behind this when you share the story. Their achievement deserves recognition. This is what progress looks like.`,
-    ],
-    // Pattern 10: Urgency style
-    [
-      `${e()} You need to know about this right now. ${coreClean}. The window for action is closing fast.`,
-      `${e()} Time is a factor here. The situation is evolving quickly and early movers have the advantage. Delay has consequences.`,
-      `${e()} The facts support urgency. The data is clear. The trend is confirmed. Ignoring this is no longer an option.`,
-      `${e()} Those already acting are seeing results. The proof of concept is established. Now it is about scale and speed.`,
-      `${e()} The cost of inaction is real. Whether it is financial, strategic, or personal, not engaging has implications.`,
-      `${e()} Act now or risk falling behind. This is not hype. It is reality. The future favors the prepared.`,
+      `${e()} Let us go deeper into ${coreClean}. The headline captures attention, but the details tell the real story.`,
+      `${e()} The first layer is the immediate event. Something happened that changed the calculation for everyone involved.`,
+      `${e()} The second layer is the mechanism. Why this happened now, and what forces converged to make it possible.`,
+      `${e()} The third layer is the implication. What this means for the broader landscape and how it connects to larger trends.`,
+      `${e()} The fourth layer is the timeline. When the full effects will be felt and what to watch for as the situation develops.`,
+      `${e()} Most coverage stops at the first layer. The real understanding comes from engaging with all four.`,
     ],
   ];
 
@@ -435,20 +387,19 @@ function generateContentFromTopic(topic) {
     visual: getVisualKeyword(niche, i === 0 ? rawTitle : coreClean),
   }));
 
-  // Title should match narration exactly
   const compellingTitles = {
-    technology: [`Tech Breaking: ${core}`, `Just Dropped: ${core}`, `Tech Alert: ${core}`],
-    science: [`Science Alert: ${core}`, `Just Discovered: ${core}`, `Mind Blowing: ${core}`],
-    finance: [`Money Alert: ${core}`, `Finance Breaking: ${core}`, `Wall Street: ${core}`],
-    mystery: [`Unsolved: ${core}`, `Mystery Alert: ${core}`, `What Happened: ${core}`],
-    indonesia: [`Indonesia Update: ${core}`, `Breaking: ${core}`, `Indonesia News: ${core}`],
-    nature: [`Nature Alert: ${core}`, `Wild Discovery: ${core}`, `Nature Files: ${core}`],
-    space: [`Space Breaking: ${core}`, `Cosmos Alert: ${core}`, `Space Discovery: ${core}`],
-    history: [`History Files: ${core}`, `Past Revealed: ${core}`, `History Alert: ${core}`],
-    psychology: [`Mind Files: ${core}`, `Brain Alert: ${core}`, `Psych Insight: ${core}`],
-    food: [`Food Files: ${core}`, `Kitchen Alert: ${core}`, `Food Discovery: ${core}`],
-    geography: [`World Files: ${core}`, `Geo Alert: ${core}`, `Place Discovery: ${core}`],
-    general: [`Breaking: ${core}`, `Just In: ${core}`, `Viral Alert: ${core}`],
+    technology: [`Understanding: ${core}`, `What ${core} Means`, `The ${core} Explained`],
+    science: [`The Science Behind: ${core}`, `${core} Explained`, `Research Update: ${core}`],
+    finance: [`Market Impact: ${core}`, `What ${core} Means for Markets`, `Financial Analysis: ${core}`],
+    mystery: [`Investigating: ${core}`, `${core} Deep Dive`, `The Story Behind: ${core}`],
+    indonesia: [`Indonesia: ${core}`, `What ${core} Means`, `Analysis: ${core}`],
+    nature: [`Nature Report: ${core}`, `What ${core} Reveals`, `${core} Explained`],
+    space: [`Space Discovery: ${core}`, `What ${core} Means`, `Cosmos Update: ${core}`],
+    history: [`History Deep Dive: ${core}`, `The Story of: ${core}`, `${core} Explained`],
+    psychology: [`Mind Science: ${core}`, `What ${core} Reveals`, `Psychology of: ${core}`],
+    food: [`Food Science: ${core}`, `What ${core} Means`, `${core} Explained`],
+    geography: [`World Report: ${core}`, `What ${core} Means`, `${core} Explained`],
+    general: [`Understanding: ${core}`, `What ${core} Means`, `${core} Explained`],
   };
   const titlePool = compellingTitles[niche] || compellingTitles.general;
   const videoTitle = titlePool[Math.floor(Math.random() * titlePool.length)].substring(0, 100);
@@ -1298,9 +1249,24 @@ function parseVTT(vttPath) {
   return cues;
 }
 
-function createGradientClip(dur, nd, out) {
+function createGradientClip(dur, nd, out, sceneIdx = 0) {
   const gT = nd.gradientTop || '0x6366f1', gB = nd.gradientBot || '0x0a0a2e';
-  try { execSync(`ffmpeg -y -f lavfi -i "gradients=c0=${gT}:c1=${gB}:s=1080x1920:d=${dur}:speed=0.015" -vf "scale=1080:1920,setsar=1,eq=brightness=0.02:saturation=1.1" -c:v libx264 -preset fast -pix_fmt yuv420p -r 30 -an "${out}"`, { timeout: 15000, stdio: 'pipe' }); } catch {}
+  const patterns = [
+    `gradients=c0=${gT}:c1=${gB}:s=1080x1920:d=${dur}:speed=0.015`,
+    `gradients=c0=${gB}:c1=${gT}:s=1080x1920:d=${dur}:speed=0.02`,
+    `gradients=c0=${gT}:c1=${gB}:s=1080x1920:d=${dur}:speed=0.01:c0x=0:c0y=ih/2:c1x=iw:c1y=ih/2`,
+  ];
+  const pattern = patterns[sceneIdx % patterns.length];
+  const filters = [
+    'scale=1080:1920', 'setsar=1',
+    'eq=brightness=0.02:saturation=1.15:contrast=1.05',
+    `noise=alls=8:allf=t+u`,
+    `drawtext=text='•':fontsize=4:fontcolor=white@0.15:x='mod(t*90+${sceneIdx*300},w)':y='mod(t*60+${sceneIdx*200},h)'`,
+    `drawtext=text='•':fontsize=3:fontcolor=white@0.1:x='mod(t*120+${sceneIdx*500},w)':y='mod(t*80+${sceneIdx*400},h)'`,
+    `drawtext=text='•':fontsize=5:fontcolor=white@0.12:x='mod(t*70+${sceneIdx*100},w)':y='mod(t*100+${sceneIdx*600},h)'`,
+  ];
+  const vf = filters.join(',');
+  try { execSync(`ffmpeg -y -f lavfi -i "${pattern}" -vf "${vf}" -c:v libx264 -preset fast -pix_fmt yuv420p -r 30 -an "${out}"`, { timeout: 20000, stdio: 'pipe' }); } catch {}
 }
 
 async function createVideoWithFFmpeg(content, outputPath) {
@@ -1361,10 +1327,12 @@ async function createVideoWithFFmpeg(content, outputPath) {
     if (url) {
       try {
         await downloadFile(url, raw);
-        execSync(`ffmpeg -y -i "${raw}" -t ${dur} -vf "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,fade=in:st=0:d=0.5,fade=out:st=${Math.max(0.5,dur-0.5)}:d=0.5" -c:v libx264 -preset fast -pix_fmt yuv420p -r 30 -an "${trim}"`, { timeout: 30000, stdio: 'pipe' });
+        const zoomDir = i % 2 === 0 ? "zoompan=z='min(zoom+0.0015,1.08)':d='1':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'" : "zoompan=z='if(eq(on,1),1.08,max(zoom-0.0015,1.0))':d='1':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)'";
+        const vf = `scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,${zoomDir},fade=in:st=0:d=0.4,fade=out:st=${Math.max(0.3,dur-0.4)}:d=0.4,eq=brightness=0.03:saturation=1.1`;
+        execSync(`ffmpeg -y -i "${raw}" -t ${dur} -vf "${vf}" -c:v libx264 -preset fast -pix_fmt yuv420p -r 30 -an "${trim}"`, { timeout: 30000, stdio: 'pipe' });
         sv.push(trim); console.log(`    Scene ${i+1}: OK`);
-      } catch { createGradientClip(dur, nd, trim); sv.push(trim); console.log(`    Scene ${i+1}: gradient`); }
-    } else { createGradientClip(dur, nd, trim); sv.push(trim); console.log(`    Scene ${i+1}: gradient`); }
+      } catch { createGradientClip(dur, nd, trim, i); sv.push(trim); console.log(`    Scene ${i+1}: gradient`); }
+    } else { createGradientClip(dur, nd, trim, i); sv.push(trim); console.log(`    Scene ${i+1}: gradient`); }
   }
 
   console.log(`    Total scenes: ${sceneDurs.length}, total duration: ${sceneDurs.reduce((a,b)=>a+b,0).toFixed(1)}s`);
@@ -1380,8 +1348,42 @@ async function createVideoWithFFmpeg(content, outputPath) {
   const ca = path.join(sd, 'concat_a.mp3');
   execSync(`ffmpeg -y -f concat -safe 0 -i "${al}" -c:a libmp3lame -q:a 2 -ar 24000 -ac 1 "${ca}"`, { timeout: 30000, stdio: 'pipe' });
 
+  console.log('  [3.5] Generating background music...');
+  const totalDur = sceneDurs.reduce((a,b)=>a+b,0);
+  const bgMusic = path.join(sd, 'bgmusic.mp3');
+  const nicheFreqs = {
+    technology: [220, 330, 440], science: [196, 294, 392], finance: [262, 330, 392],
+    mystery: [185, 277, 370], indonesia: [220, 277, 330], nature: [196, 262, 330],
+    space: [165, 247, 330], history: [220, 277, 349], psychology: [196, 247, 330],
+    food: [220, 277, 330], geography: [196, 294, 392], general: [220, 330, 440],
+  };
+  const freqs = nicheFreqs[content.niche] || nicheFreqs.general;
+  try {
+    const bgCmd = `ffmpeg -y -f lavfi -i "sine=frequency=${freqs[0]}:duration=${totalDur}:sample_rate=24000" -f lavfi -i "sine=frequency=${freqs[1]}:duration=${totalDur}:sample_rate=24000" -f lavfi -i "sine=frequency=${freqs[2]}:duration=${totalDur}:sample_rate=24000" -filter_complex "[0:a]volume=0.03[a1];[1:a]volume=0.02[a2];[2:a]volume=0.015[a3];[a1][a2][a3]amix=inputs=3:duration=longest,lowpass=f=800,highpass=f=100,afade=t=in:st=0:d=2,afade=t=out:st=${Math.max(0,totalDur-2)}:d=2[out]" -map "[out]" -c:a libmp3lame -q:a 4 "${bgMusic}"`;
+    execSync(bgCmd, { timeout: 30000, stdio: 'pipe' });
+    console.log(`    BGM: OK (${totalDur.toFixed(1)}s)`);
+  } catch(e) { console.log('    BGM: skipped'); }
+
   console.log('  [4/4] Composing with voice-synced subtitles...');
   const assPath = path.join(sd, 'subs.ass');
+
+  const nicheColors = {
+    technology: '00B4D8',   // cyan
+    science: '7B68EE',      // purple
+    finance: 'FFD700',      // gold
+    mystery: 'FF6B6B',      // red
+    indonesia: 'FF4444',     // bright red
+    nature: '4CAF50',        // green
+    space: '9C27B0',         // purple
+    history: 'FF8C00',       // dark orange
+    psychology: 'E91E63',    // pink
+    food: 'FF5722',          // deep orange
+    geography: '00BCD4',     // teal
+    general: 'FFFFFF',       // white
+  };
+  const accentColor = nicheColors[content.niche] || 'FFFFFF';
+  const accentHex = `&H00${accentColor.split('').reverse().join('')}`;
+
   const assLines = [
     '[Script Info]',
     'Title: AI Video',
@@ -1393,12 +1395,21 @@ async function createVideoWithFFmpeg(content, outputPath) {
     '',
     '[V4+ Styles]',
     'Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding',
-    'Style: Default,Montserrat,58,&H00FFFFFF,&H000000FF,&H00000000,&H96000000,-1,0,0,0,100,100,1,0,1,5,3,5,60,60,20,1',
-    'Style: Hook,Montserrat,68,&H0000FFFF,&H000000FF,&H00000000,&H96000000,-1,0,0,0,100,100,2,0,1,6,4,5,60,60,20,1',
+    'Style: Default,Montserrat,56,&H00FFFFFF,&H000000FF,&H00000000,&H96000000,-1,0,0,0,100,100,1,0,1,4,2,5,50,50,25,1',
+    'Style: Hook,Montserrat,72,&H00FFFFFF,&H000000FF,&H00000000,&H96000000,-1,0,0,0,100,100,2,0,1,5,3,5,60,60,20,1',
+    'Style: Emphasis,Montserrat,60,&H00' + accentColor.split('').reverse().join('') + ',&H000000FF,&H00000000,&H96000000,-1,0,0,0,100,100,1,0,1,5,3,5,60,60,20,1',
+    'Style: Counter,Montserrat,52,&H00AAAAAA,&H000000FF,&H00000000,&H96000000,0,0,0,0,100,100,0,0,1,3,1,5,50,50,30,1',
     '',
     '[Events]',
     'Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text',
   ];
+
+  const fmtTime = (s) => {
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const sec = (s % 60).toFixed(2);
+    return `${h}:${String(m).padStart(2,'0')}:${sec.padStart(5,'0')}`;
+  };
 
   allCues.forEach((cue, idx) => {
     let text = cue.text
@@ -1406,33 +1417,74 @@ async function createVideoWithFFmpeg(content, outputPath) {
       .replace(/\{/g, '\\{')
       .replace(/\}/g, '\\}')
       .replace(/\n/g, '\\N');
+    const duration = cue.end - cue.start;
     const isHook = idx === 0;
-    const style = isHook ? 'Hook' : 'Default';
 
     if (isHook) {
-      text = `{\\fad(300,200)}${text}`;
-    } else {
-      text = `{\\fad(200,150)}${text}`;
+      const styled = `{\\fad(300,200)\\an5\\pos(540,1600)\\fs72\\b1\\c&HFFFFFF&\\3c&H000000&\\4c&H960000&\\bord5\\shad3}${text}`;
+      assLines.push(`Dialogue: 0,${fmtTime(cue.start)},${fmtTime(cue.end)},Hook,,0,0,0,,${styled}`);
+      return;
     }
 
-    const fmtTime = (s) => {
-      const h = Math.floor(s / 3600);
-      const m = Math.floor((s % 3600) / 60);
-      const sec = (s % 60).toFixed(2);
-      return `${h}:${String(m).padStart(2,'0')}:${sec.padStart(5,'0')}`;
-    };
-    assLines.push(`Dialogue: 0,${fmtTime(cue.start)},${fmtTime(cue.end)},${style},,0,0,0,,${text}`);
+    if (duration < 2.5) {
+      const styled = `{\\fad(150,100)\\an5\\pos(540,1600)\\fs52\\b1\\c&HFFFFFF&\\3c&H000000&\\bord4\\shad2}${text}`;
+      assLines.push(`Dialogue: 0,${fmtTime(cue.start)},${fmtTime(cue.end)},Default,,0,0,0,,${styled}`);
+      return;
+    }
+
+    const words = text.split(' ');
+    const wordsPerSec = words.length / duration;
+
+    if (words.length <= 6) {
+      const wordsPerChunk = words.length;
+      const chunkDuration = duration / 1;
+      const displayText = words.join(' ');
+      const emphasisIdx = idx % 4;
+      const styleName = emphasisIdx === 0 ? 'Emphasis' : 'Default';
+      const styleColor = emphasisIdx === 0 ? `c&H${accentColor.split('').reverse().join('')}&` : 'c&HFFFFFF&';
+      const styled = `{\\fad(200,150)\\an5\\pos(540,1600)\\fs56\\b1\\${styleColor}\\3c&H000000&\\bord4\\shad2}${displayText}`;
+      assLines.push(`Dialogue: 0,${fmtTime(cue.start)},${fmtTime(cue.end)},${styleName},,0,0,0,,${styled}`);
+    } else {
+      const chunkSize = Math.max(3, Math.min(6, Math.ceil(wordsPerSec * 2)));
+      const chunks = [];
+      for (let w = 0; w < words.length; w += chunkSize) {
+        chunks.push(words.slice(w, w + chunkSize));
+      }
+      const chunkDur = duration / chunks.length;
+
+      chunks.forEach((chunkWords, ci) => {
+        const chunkStart = cue.start + ci * chunkDur;
+        const chunkEnd = Math.min(chunkStart + chunkDur + 0.1, cue.end);
+        const displayText = chunkWords.join(' ');
+        const emphasisIdx = (idx + ci) % 4;
+        const styleName = emphasisIdx === 0 ? 'Emphasis' : 'Default';
+        const styleColor = emphasisIdx === 0 ? `c&H${accentColor.split('').reverse().join('')}&` : 'c&HFFFFFF&';
+        const yOff = ci % 2 === 0 ? 1600 : 1650;
+        const fade = `{\\fad(180,120)`;
+        const styled = `${fade}\\an5\\pos(540,${yOff})\\fs56\\b1\\${styleColor}\\3c&H000000&\\bord4\\shad2}${displayText}`;
+        assLines.push(`Dialogue: 0,${fmtTime(chunkStart)},${fmtTime(chunkEnd)},${styleName},,0,0,0,,${styled}`);
+      });
+    }
   });
 
   fs.writeFileSync(assPath, assLines.join('\n'));
   const assEsc = assPath.replace(/\\/g, '/').replace(/:/g, '\\:');
   const fontDir = path.join(__dirname, 'assets').replace(/\\/g, '/').replace(/:/g, '\\:');
+  const hasBGM = fs.existsSync(bgMusic);
   try {
-    execSync(`ffmpeg -y -i "${cv}" -i "${ca}" -filter_complex "[0:v]ass='${assEsc}':fontsdir='${fontDir}'[out]" -map "[out]" -map "1:a" -c:v libx264 -preset fast -crf 23 -pix_fmt yuv420p -c:a aac -b:a 128k -shortest -movflags +faststart "${outputPath}"`, { timeout: 300000, stdio: 'pipe' });
+    if (hasBGM) {
+      execSync(`ffmpeg -y -i "${cv}" -i "${ca}" -i "${bgMusic}" -filter_complex "[0:v]ass='${assEsc}':fontsdir='${fontDir}'[v];[1:a]volume=1.0[voice];[2:a]volume=0.4[bg];[voice][bg]amix=inputs=2:duration=shortest[aout]" -map "[v]" -map "[aout]" -c:v libx264 -preset fast -crf 23 -pix_fmt yuv420p -c:a aac -b:a 128k -shortest -movflags +faststart "${outputPath}"`, { timeout: 300000, stdio: 'pipe' });
+    } else {
+      execSync(`ffmpeg -y -i "${cv}" -i "${ca}" -filter_complex "[0:v]ass='${assEsc}':fontsdir='${fontDir}'[out]" -map "[out]" -map "1:a" -c:v libx264 -preset fast -crf 23 -pix_fmt yuv420p -c:a aac -b:a 128k -shortest -movflags +faststart "${outputPath}"`, { timeout: 300000, stdio: 'pipe' });
+    }
   } catch (e) {
     console.log('  ASS burn failed, trying without subs...');
     try {
-      execSync(`ffmpeg -y -i "${cv}" -i "${ca}" -map 0:v -map 1:a -c:v libx264 -preset fast -crf 23 -pix_fmt yuv420p -c:a aac -b:a 128k -shortest -movflags +faststart "${outputPath}"`, { timeout: 300000, stdio: 'pipe' });
+      if (hasBGM) {
+        execSync(`ffmpeg -y -i "${cv}" -i "${ca}" -i "${bgMusic}" -filter_complex "[1:a]volume=1.0[voice];[2:a]volume=0.4[bg];[voice][bg]amix=inputs=2:duration=shortest[aout]" -map 0:v -map "[aout]" -c:v libx264 -preset fast -crf 23 -pix_fmt yuv420p -c:a aac -b:a 128k -shortest -movflags +faststart "${outputPath}"`, { timeout: 300000, stdio: 'pipe' });
+      } else {
+        execSync(`ffmpeg -y -i "${cv}" -i "${ca}" -map 0:v -map 1:a -c:v libx264 -preset fast -crf 23 -pix_fmt yuv420p -c:a aac -b:a 128k -shortest -movflags +faststart "${outputPath}"`, { timeout: 300000, stdio: 'pipe' });
+      }
     } catch (e2) {
       console.log('  Final compose also failed:', e2.message.substring(0, 100));
     }

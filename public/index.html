@@ -545,6 +545,29 @@
     }
 
     async function uploadVideo(id, platform) {
+      if (platform === 'tiktok') {
+        const token = getTikTokToken();
+        if (!token) { showToast('Connect TikTok first!', 'error'); return; }
+        showToast('Uploading to TikTok...', 'info');
+        try {
+          const vRes = await fetch(`/api/video/${id}`);
+          const blob = await vRes.blob();
+          const videos = await (await fetch(API_BASE + '/videos')).json();
+          const v = videos.find(x => x.id === id);
+          const title = v ? v.title : 'AI Video';
+          const result = await uploadToTikTokWithToken(new File([blob], 'video.mp4', { type: 'video/mp4' }), title);
+          if (result.status === 'SUCCESS' || result.status === 'PROCESSING') {
+            showToast('Uploaded to TikTok!');
+            await fetch(`/api/upload/${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ platform: 'tiktok', tiktok_url: result.url, tiktok_id: result.publish_id }) });
+            loadAllVideos();
+          } else {
+            showToast('TikTok upload: ' + result.status, 'error');
+          }
+        } catch (e) {
+          showToast('TikTok error: ' + e.message, 'error');
+        }
+        return;
+      }
       showToast(`Uploading to ${platform}...`, 'info');
       try {
         const res = await fetch(`/api/upload/${id}`, {
@@ -657,22 +680,54 @@
     checkTikTokStatus();
     setInterval(refreshStats, 30000);
 
-    async function checkTikTokStatus() {
+    function getTikTokToken() {
       try {
-        const res = await fetch(API_BASE + '/tiktok/status');
-        const data = await res.json();
-        const el = document.getElementById('tiktokStatus');
-        const act = document.getElementById('tiktokAction');
-        if (data.connected) {
-          el.innerHTML = '<span style="color:#22c55e;">Connected</span>';
-          act.innerHTML = '<span class="text-xs text-gray-500">Ready to upload</span>';
-        } else {
-          el.innerHTML = '<span style="color:#ef4444;">Not connected</span>';
-          act.innerHTML = '<a href="/tiktok/auth" target="_blank" class="btn btn-sm" style="background:#000;color:white;text-decoration:none;">Connect TikTok</a>';
+        const t = JSON.parse(localStorage.getItem('tiktok_token') || 'null');
+        if (t && t.access_token && t.obtained_at) {
+          const age = Date.now() - t.obtained_at;
+          if (age < (t.expires_in || 86400) * 1000) return t.access_token;
         }
-      } catch (e) {
-        document.getElementById('tiktokStatus').innerHTML = '<span style="color:#f59e0b;">Error checking</span>';
+      } catch {}
+      return null;
+    }
+
+    async function checkTikTokStatus() {
+      const el = document.getElementById('tiktokStatus');
+      const act = document.getElementById('tiktokAction');
+      const token = getTikTokToken();
+      if (token) {
+        el.innerHTML = '<span style="color:#22c55e;">Connected</span>';
+        act.innerHTML = '<span class="text-xs text-gray-500">Ready to upload</span>';
+      } else {
+        el.innerHTML = '<span style="color:#ef4444;">Not connected</span>';
+        act.innerHTML = '<a href="/api/tiktok/auth" class="btn btn-sm" style="background:#000;color:white;text-decoration:none;">Connect TikTok</a>';
       }
+    }
+
+    async function uploadToTikTokWithToken(videoFile, title) {
+      const token = getTikTokToken();
+      if (!token) throw new Error('TikTok not connected. Click Connect TikTok first.');
+      const initRes = await fetch('https://open.tiktokapis.com/v2/post/publish/inbox/video/init/', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          post_info: { title: title.substring(0, 150), privacy_level: 'PUBLIC_TO_EVERYONE', disable_duet: false, disable_comment: false, disable_stitch: false },
+          source_info: { source: 'FILE_UPLOAD', video_size: videoFile.size }
+        })
+      });
+      const initData = await initRes.json();
+      if (!initData.data || !initData.data.upload_url) throw new Error('TikTok init failed: ' + JSON.stringify(initData));
+      const { upload_url, publish_id } = initData.data;
+      await fetch(upload_url, { method: 'PUT', headers: { 'Content-Type': 'video/mp4', 'Content-Range': 'bytes 0-' + (videoFile.size - 1) + '/' + videoFile.size }, body: videoFile });
+      let status = 'PROCESSING', attempts = 0;
+      while (status === 'PROCESSING' && attempts < 30) {
+        await new Promise(r => setTimeout(r, 2000));
+        const sr = await fetch('https://open.tiktokapis.com/v2/post/publish/status/fetch/?publish_id=' + publish_id, { headers: { 'Authorization': 'Bearer ' + token } });
+        const sd = await sr.json();
+        status = sd.data ? sd.data.status : 'FAILED';
+        attempts++;
+      }
+      return { publish_id, status, url: 'https://www.tiktok.com/@user/video/' + publish_id };
     }
   </script>
 </body>
