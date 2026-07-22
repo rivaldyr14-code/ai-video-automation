@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/**/index.js",
+      "src": "api/**/*.js",
       "use": "@vercel/node"
     },
     {
@@ -16,12 +16,12 @@
       "dest": "/api/data/index.js"
     },
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
       "src": "/api/tiktok-exchange",
       "dest": "/api/tiktok/index.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     },
     {
       "src": "/(.*)",
