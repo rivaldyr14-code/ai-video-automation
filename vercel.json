@@ -11,21 +11,7 @@
     }
   ],
   "routes": [
-    {
-      "src": "/api/data",
-      "dest": "/api/data/index.js"
-    },
-    {
-      "src": "/api/tiktok-exchange",
-      "dest": "/api/tiktok/index.js"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/public/$1"
-    }
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/(.*)", "dest": "/public/$1" }
   ]
 }
