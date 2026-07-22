@@ -269,8 +269,15 @@
 
     <div id="tab-settings" class="tab-content">
       <div class="card max-w-2xl">
-        <h2 class="text-xl font-bold mb-6">API Keys</h2>
+        <h2 class="text-xl font-bold mb-6">Settings</h2>
         <form id="settingsForm" onsubmit="saveSettings(event)">
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">Server URL (ngrok / local)</label>
+            <input type="text" id="SERVER_URL" class="input" placeholder="https://xxxx.ngrok-free.app atau kosongkan untuk local">
+            <p class="text-xs text-gray-400 mt-1">Isi dengan ngrok URL jika ingin akses dari mana saja. Kosongkan untuk local (localhost:3001)</p>
+          </div>
+          <hr class="border-gray-700 my-6">
+          <h3 class="text-lg font-bold mb-4">API Keys</h3>
           <div class="mb-4">
             <label class="block text-sm font-medium mb-2">OpenAI API Key</label>
             <input type="password" id="OPENAI_API_KEY" class="input" placeholder="sk-...">
@@ -310,7 +317,7 @@
   </div>
 
   <script>
-    const API_BASE = '/api';
+    const API_BASE = localStorage.getItem('serverUrl') ? localStorage.getItem('serverUrl') + '/api' : '/api';
     let nichesData = {};
 
     function switchTab(name) {
@@ -531,7 +538,7 @@
       if (spinner) spinner.style.display = 'inline-block';
       showToast('Rendering video...', 'info');
       try {
-        const res = await fetch(`/api/render/${id}`, { method: 'POST' });
+        const res = await fetch(API_BASE + `/render/${id}`, { method: 'POST' });
         const data = await res.json();
         if (data.success) {
           showToast('Video rendered successfully!');
@@ -550,7 +557,7 @@
         if (!token) { showToast('Connect TikTok first!', 'error'); return; }
         showToast('Uploading to TikTok...', 'info');
         try {
-          const vRes = await fetch(`/api/video/${id}`);
+          const vRes = await fetch(API_BASE + `/video/${id}`);
           const blob = await vRes.blob();
           const videos = await (await fetch(API_BASE + '/videos')).json();
           const v = videos.find(x => x.id === id);
@@ -558,7 +565,7 @@
           const result = await uploadToTikTokWithToken(new File([blob], 'video.mp4', { type: 'video/mp4' }), title);
           if (result.status === 'SUCCESS' || result.status === 'PROCESSING') {
             showToast('Uploaded to TikTok!');
-            await fetch(`/api/upload/${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ platform: 'tiktok', tiktok_url: result.url, tiktok_id: result.publish_id }) });
+            await fetch(API_BASE + `/upload/${id}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ platform: 'tiktok', tiktok_url: result.url, tiktok_id: result.publish_id }) });
             loadAllVideos();
           } else {
             showToast('TikTok upload: ' + result.status, 'error');
@@ -570,7 +577,7 @@
       }
       showToast(`Uploading to ${platform}...`, 'info');
       try {
-        const res = await fetch(`/api/upload/${id}`, {
+        const res = await fetch(API_BASE + `/upload/${id}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ platform })
@@ -595,7 +602,7 @@
     }
 
     function previewVideo(id) {
-      window.open(`/api/video/${id}`, '_blank');
+      window.open(API_BASE + `/video/${id}`, '_blank');
     }
 
     async function quickGenerate(niche) {
@@ -654,17 +661,15 @@
 
     async function loadSettings() {
       try {
+        const savedUrl = localStorage.getItem('serverUrl') || '';
+        document.getElementById('SERVER_URL').value = savedUrl;
         const res = await fetch(API_BASE + '/data');
         const data = await res.json();
         const settings = data.settings || {};
         Object.keys(settings).forEach(key => {
           const input = document.getElementById(key);
-          if (input) {
-            if (input.type === 'password') {
-              input.placeholder = settings[key] === 'set' ? '(configured)' : 'Not set';
-            } else {
-              input.placeholder = settings[key] === 'set' ? '(configured)' : 'Not set';
-            }
+          if (input && key !== 'SERVER_URL') {
+            input.placeholder = settings[key] === 'set' ? '(configured)' : 'Not set';
           }
         });
       } catch (e) { console.error(e); }
@@ -672,7 +677,14 @@
 
     async function saveSettings(e) {
       e.preventDefault();
-      showToast('Settings managed via .env and .env.local files', 'info');
+      const serverUrl = document.getElementById('SERVER_URL').value.trim().replace(/\/$/, '');
+      if (serverUrl) {
+        localStorage.setItem('serverUrl', serverUrl);
+        showToast('Server URL saved: ' + serverUrl + ' — Reload page to apply', 'success');
+      } else {
+        localStorage.removeItem('serverUrl');
+        showToast('Server URL cleared — using local (localhost:3001). Reload page to apply', 'success');
+      }
     }
 
     loadNiches();
