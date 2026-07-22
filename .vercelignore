@@ -2,7 +2,8 @@ output/
 node_modules/
 temp/
 tokens/
-data/
+data/videos.json
+data/quota.json
 *.mp4
 *.srt
 *.ass
