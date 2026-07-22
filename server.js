@@ -6,16 +6,26 @@ const { google } = require('googleapis');
 const axios = require('axios');
 const xml2js = require('xml2js');
 
-const FFMPEG_BIN = 'C:\\Users\\Rival\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-8.1.2-full_build\\bin';
-process.env.PATH = FFMPEG_BIN + ';' + (process.env.PATH || '');
+if (process.platform === 'win32') {
+  const FFMPEG_BIN = 'C:\\Users\\Rival\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-8.1.2-full_build\\bin';
+  process.env.PATH = FFMPEG_BIN + ';' + (process.env.PATH || '');
+}
 
 require('dotenv').config({ path: '.env.local' });
 require('dotenv').config();
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') return res.sendStatus(200);
+  next();
+});
 
 const DATA_DIR = path.join(__dirname, 'data');
 const OUTPUT_DIR = path.join(__dirname, 'output');

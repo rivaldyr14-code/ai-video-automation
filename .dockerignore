@@ -1,0 +1,13 @@
+node_modules
+.git
+.vercel
+output
+temp
+tokens
+data/videos.json
+data/quota.json
+*.mp4
+*.srt
+*.ass
+*.log
+.DS_Store
